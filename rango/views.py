@@ -47,7 +47,6 @@ def index(request):
     context_dict['categories'] = category_list
     context_dict['pages'] = page_list
     visitor_cookie_handler(request)
-    context_dict['visits'] = request.session['visits']
     response = render(request, 'rango/index.html', context=context_dict)
     # Render the response and send it back!
     return response
@@ -56,7 +55,12 @@ def about(request):
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
-    return render(request, 'rango/about.html')
+    context_dict = {}
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+    response = render(request, 'rango/about.html', context=context_dict)
+    # Render the response and send it back!
+    return response
 
 def show_category(request, category_name_slug):
         # Create a context dictionary which we can pass
